@@ -8,7 +8,7 @@ var dataset = require('./dataset.json');
 
 var hundredThousandairs = null;
 
-function getAccounts( elements, index, array ) {
+function getAccounts( element, index, array ) {
   return dataset.bankBalances[ index ].amount > 100000;
 }
 hundredThousandairs = dataset.bankBalances.filter( getAccounts );
@@ -27,12 +27,12 @@ hundredThousandairs = dataset.bankBalances.filter( getAccounts );
 
 var roundedDollar = null;
 
-function newKey( elements, index, array ) {
+function newKey( element, index, array ) {
   dataset.bankBalances[ index ].rounded =  Math.round( dataset.bankBalances[ index ].amount );
   return dataset.bankBalances[ index ];
 }
 roundedDollar = dataset.bankBalances.map( newKey );
-console.log(roundedDollar);
+
 
 
 /*
@@ -47,8 +47,29 @@ console.log(roundedDollar);
 */
 var roundedDime = null;
 
+function roundingCents( element, index, array ) {
+  var numToTheTenth = parseFloat( parseFloat( element.amount ).toFixed( 1 ) );
+  return {
+    amount: numToTheTenth,
+    state: element.state
+  };
+}
+roundedDime = dataset.bankBalances.map( roundingCents );
+
+
+
 // set sumOfBankBalances to the sum of all amounts in bankBalances
 var sumOfBankBalances = null;
+
+function totalSum( previousValue, currentValue ) {
+  console.log(parseFloat(previousValue));
+  return parseFloat(previousValue) + parseFloat(currentValue);
+}
+// totalSum();
+console.log(totalSum());
+sumOfBankBalances = dataset.bankBalances.reduce(totalSum);
+console.log(sumOfBankBalances);
+
 
 /*
   set sumOfInterests to the sum of the 18.9% interest

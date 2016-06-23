@@ -7,6 +7,7 @@ var dataset = require('./dataset.json');
 */
 
 var hundredThousandairs = null;
+
 function getAccounts( elements, index, array ) {
   return dataset.bankBalances[ index ].amount > 100000;
 }
@@ -23,7 +24,16 @@ hundredThousandairs = dataset.bankBalances.filter( getAccounts );
     }
   assign the resulting array to `roundedDollar`
 */
+
 var roundedDollar = null;
+
+function newKey( elements, index, array ) {
+  dataset.bankBalances[ index ].rounded =  Math.round( dataset.bankBalances[ index ].amount );
+  return dataset.bankBalances[ index ];
+}
+roundedDollar = dataset.bankBalances.map( newKey );
+console.log(roundedDollar);
+
 
 /*
   set a the `amount` value for each object in bankBalances
